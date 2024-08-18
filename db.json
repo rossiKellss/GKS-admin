@@ -1,0 +1,214 @@
+{
+    "vegetables": [
+        {
+            "id": "1",
+            "name": "Tomato",
+            "category": "Vegetable",
+            "pricePerKg": 80,
+            "quantityInStock": 100,
+            "image": "https://example.com/images/tomato.jpg",
+            "description": "Fresh organic tomatoes directly from the farm.",
+            "rating": 4.5,
+            "reviews": [
+              {
+                "userId": "101",
+                "review": "Great quality and very fresh!",
+                "rating": 5
+              },
+              {
+                "userId": "102",
+                "review": "A bit too ripe for my taste.",
+                "rating": 3
+              }
+            ],
+            "dateAdded": "2024-08-14"
+          },
+          {
+            "id": "2",
+            "name": "Spinach",
+            "category": "Vegetable",
+            "pricePerKg": 50,
+            "quantityInStock": 200,
+            "image": "https://example.com/images/spinach.jpg",
+            "description": "Organic spinach packed with nutrients.",
+            "rating": 4.7,
+            "reviews": [
+              {
+                "userId": "103",
+                "review": "Very fresh and clean.",
+                "rating": 5
+              },
+              {
+                "userId": "104",
+                "review": "Good value for the price.",
+                "rating": 4
+              }
+            ],
+            "dateAdded": "2024-08-12"
+          },
+          {
+            "id": "3",
+            "name": "Carrot",
+            "category": "Vegetable",
+            "pricePerKg": 60,
+            "quantityInStock": 150,
+            "image": "https://example.com/images/carrot.jpg",
+            "description": "Crunchy and sweet organic carrots.",
+            "rating": 4.6,
+            "reviews": [
+              {
+                "userId": "105",
+                "review": "Perfect for salads.",
+                "rating": 5
+              }
+            ],
+            "dateAdded": "2024-08-10"
+          },
+          {
+            "id": "4",
+            "name": "Broccoli",
+            "category": "Vegetable",
+            "pricePerKg": 90,
+            "quantityInStock": 80,
+            "image": "https://example.com/images/broccoli.jpg",
+            "description": "Fresh green broccoli, rich in vitamins.",
+            "rating": 4.8,
+            "reviews": [
+              {
+                "userId": "106",
+                "review": "Best broccoli I've had in a while.",
+                "rating": 5
+              }
+            ],
+            "dateAdded": "2024-08-11"
+          },
+          {
+            "id": "5",
+            "name": "Potato",
+            "category": "Vegetable",
+            "pricePerKg": 40,
+            "quantityInStock": 300,
+            "image": "https://example.com/images/potato.jpg",
+            "description": "Versatile potatoes suitable for various dishes.",
+            "rating": 4.4,
+            "reviews": [
+              {
+                "userId": "107",
+                "review": "Good quality and price.",
+                "rating": 4
+              }
+            ],
+            "dateAdded": "2024-08-09"
+          },
+          {
+            "id": "6",
+            "name": "Cucumber",
+            "category": "Vegetable",
+            "pricePerKg": 30,
+            "quantityInStock": 250,
+            "image": "https://example.com/images/cucumber.jpg",
+            "description": "Cool, refreshing cucumbers, perfect for salads.",
+            "rating": 4.3,
+            "reviews": [
+              {
+                "userId": "108",
+                "review": "Crisp and refreshing!",
+                "rating": 5
+              }
+            ],
+            "dateAdded": "2024-08-13"
+          },
+          {
+            "id": "7",
+            "name": "Bell Pepper",
+            "category": "Vegetable",
+            "pricePerKg": 120,
+            "quantityInStock": 90,
+            "image": "https://example.com/images/bellpepper.jpg",
+            "description": "Colorful bell peppers, sweet and crunchy.",
+            "rating": 4.7,
+            "reviews": [
+              {
+                "userId": "109",
+                "review": "Adds great color and flavor to dishes.",
+                "rating": 5
+              }
+            ],
+            "dateAdded": "2024-08-08"
+          },
+          {
+            "id": "8",
+            "name": "Lettuce",
+            "category": "Vegetable",
+            "pricePerKg": 40,
+            "quantityInStock": 180,
+            "image": "https://example.com/images/lettuce.jpg",
+            "description": "Fresh green lettuce, perfect for salads.",
+            "rating": 4.4,
+            "reviews": [
+              {
+                "userId": "110",
+                "review": "Crisp and fresh.",
+                "rating": 4
+              }
+            ],
+            "dateAdded": "2024-08-06"
+          },
+          {
+            "id": "9",
+            "name": "Zucchini",
+            "category": "Vegetable",
+            "pricePerKg": 70,
+            "quantityInStock": 130,
+            "image": "https://example.com/images/zucchini.jpg",
+            "description": "Tender and mild zucchini, versatile in cooking.",
+            "rating": 4.5,
+            "reviews": [
+              {
+                "userId": "111",
+                "review": "Great for stir-fries.",
+                "rating": 4
+              }
+            ],
+            "dateAdded": "2024-08-07"
+          },
+          {
+            "id": "10",
+            "name": "Eggplant",
+            "category": "Vegetable",
+            "pricePerKg": 50,
+            "quantityInStock": 140,
+            "image": "https://example.com/images/eggplant.jpg",
+            "description": "Deep purple eggplants, firm and flavorful.",
+            "rating": 4.6,
+            "reviews": [
+              {
+                "userId": "112",
+                "review": "Perfect for grilling.",
+                "rating": 5
+              }
+            ],
+            "dateAdded": "2024-08-05"
+          },
+          {
+            "id": "11",
+            "name": "Onion",
+            "category": "Vegetable",
+            "pricePerKg": 35,
+            "quantityInStock": 500,
+            "image": "https://example.com/images/onion.jpg",
+            "description": "Red onions, pungent and flavorful.",
+            "rating": 4.4,
+            "reviews": [
+              {
+                "userId": "113",
+                "review": "Essential for cooking.",
+                "rating": 5
+              }
+            ],
+            "dateAdded": "2024-08-04"
+          }
+     
+    ]
+  }
+  

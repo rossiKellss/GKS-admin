@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 function App() {
   return (
     <>
-      <section className="main flex">
-        <div className="relative sideBarWrapper w-[15%]">
+      <section className="main flex bg-background">
+        <div className="relative sideBarWrapper w-[15%] ">
           <Sidebar />
           
         </div>
