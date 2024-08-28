@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
 import { IoIosArrowDown } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 function List() {
   const [data, setData] = useState();
@@ -82,10 +83,12 @@ function List() {
   useEffect(() => {
     getData();
   }, [pagination]);
+
+
   const getData = async () => {
     try {
       const res = await axios(
-        `http://localhost:5000/vegetables?_start=${pagination.start}&_end=${pagination.end}`
+        `http://localhost:4000/api/products`
       );
       setData(res.data);
     } catch (err) {
@@ -171,7 +174,10 @@ function List() {
                     {item.pricePerKg}
                   </TableCell>
                   <TableCell className="flex gap-2">
-                    <button className="border px-2 py-1">Update</button>
+                    <Link to={`/update/${item.id}`}>
+                    <button className="border px-2 py-1" >Update</button>
+                    </Link>
+                    
                     <button className="border px-2 py-1">Delete</button>
                   </TableCell>
                 </TableRow>
