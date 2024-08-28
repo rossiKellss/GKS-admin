@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useGetProductsQuery,useDeleteProductsMutation } from "./app/apiSlice";
+
 import { Button } from "./ui/button";
 import {
   Table,
@@ -33,13 +33,36 @@ import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 function List() {
-  const [data, setData] = useState();
+  const {data,error,isLoading,isSuccess}=useGetProductsQuery();
+  const [deleteProducts,{isError}]=useDeleteProductsMutation();
+  
+  const [fetchedData, setFetchedData] = useState();
   const [searchCred, setSearchCred] = useState();
-  const [pagination,setPagination]=useState({
-    start:0,
-    page:1,
-    end:5
-  })
+
+
+
+  const deleteItem=async(id)=>{
+    try{
+
+      const {data}=await deleteProducts(id);
+      console.log(data.message);
+      
+    }catch(err){
+      console.log(err);
+    }
+
+
+  }
+
+  
+
+  
+ 
+  // const [pagination,setPagination]=useState({
+  //   start:0,
+  //   page:1,
+  //   end:5
+  // })
   const search = async () => {
     try {
       const res = await axios.get(
@@ -50,51 +73,51 @@ function List() {
       console.err(err.message);
     }
   };
-  const handlePaginationNext=()=>{
-    console.log("pagination btn triggered");
-    const{page,end}=pagination;
+
+  // const handlePaginationNext=()=>{
+  //   console.log("pagination btn triggered");
+  //   const{page,end}=pagination;
    
     
-    setPagination({
-      start:end,
-      page:page+1,
-      end:end+5
+  //   setPagination({
+  //     start:end,
+  //     page:page+1,
+  //     end:end+5
 
-    })
+  //   })
 
-  }
+  // }
 
   
-  console.log(pagination);
-  const handlePaginationPrevious=()=>{
-    const{start,page}=pagination;
+  
+  // const handlePaginationPrevious=()=>{
+  //   const{start,page}=pagination;
    
     
-    setPagination({
-      start:start-5,
-      page:page-1,
-      end:start
+  //   setPagination({
+  //     start:start-5,
+  //     page:page-1,
+  //     end:start
 
-    })
-
-
-  }
-
-  useEffect(() => {
-    getData();
-  }, [pagination]);
+  //   })
 
 
-  const getData = async () => {
-    try {
-      const res = await axios(
-        `http://localhost:4000/api/products`
-      );
-      setData(res.data);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  // }
+
+  // useEffect(() => {
+  //   getData();
+  // }, [pagination]);
+
+
+  // const getData = async () => {
+  //   try {
+  //    const{data}=await getProducts();
+  //     setData(data);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };
+ 
 
   return (
     <div className="w-full px-3 ">
@@ -145,7 +168,7 @@ function List() {
           <TableCaption>Product Lists</TableCaption>
           <TableHeader className="">
             <TableRow className="bg-gray-400 ">
-              <TableHead className="text-black">Id</TableHead>
+              <TableHead className="text-black">S.N</TableHead>
               <TableHead className="text-black">Name</TableHead>
               <TableHead className="text-black">Category</TableHead>
               <TableHead className="text-black">Image</TableHead>
@@ -157,28 +180,36 @@ function List() {
                 Amount {"(per kg)"}
               </TableHead>
               <TableHead className="text-black ">Actions</TableHead>
+              <TableHead className="text-black ">Total</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((item, index) => {
+            {data&&data.products.map((item, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell className="font-medium">{item.id}</TableCell>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.category}</TableCell>
+                  <TableCell className="font-medium">{index+1}</TableCell>
+                  <TableCell>{item.ProductName}</TableCell>
+                  <TableCell>{item.Category}</TableCell>
                   <TableCell>"img"</TableCell>
                   <TableCell className="text-center">
-                    {item.quantityInStock}
+                    {item.Quantity}
                   </TableCell>
-                  <TableCell className="text-center font-bold">
-                    {item.pricePerKg}
+                  <TableCell className="text-center">
+                    {item.Price}
                   </TableCell>
                   <TableCell className="flex gap-2">
-                    <Link to={`/update/${item.id}`}>
-                    <button className="border px-2 py-1" >Update</button>
+                    <Link to={`/update/${item._id}`}>
+                    <button className="border px-2 py-1">Edit</button>
                     </Link>
                     
-                    <button className="border px-2 py-1">Delete</button>
+                    <button className="border px-2 py-1" onClick={()=>{deleteItem(item._id)}}>Delete</button>
+                    
+                  </TableCell>
+                  <TableCell className="font-bold">
+                    
+
+                    {item.Quantity*item.Price}
+                    
                   </TableCell>
                 </TableRow>
               );

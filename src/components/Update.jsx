@@ -15,11 +15,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 function Update() {
     const params=useParams();
-    console.log(params.id)
     const [updateCred,setUpdateCred]=useState();
+
+    
+
+
+
 
     return (
         <div className="w-full px-2 py-2">
