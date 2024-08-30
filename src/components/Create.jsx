@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useAddProductsMutation } from "./app/apiSlice";
 
 function Create() {
+  
   const form = useForm({
     defaultValues: {
       Category: "",
@@ -39,27 +40,32 @@ function Create() {
   const [addProducts, { isError }] = useAddProductsMutation();
 
   // handling on change function
- 
 
   const onSubmit = async (data) => {
-    const cData = Object.keys(data).reduce((acc, key) => {
-      const value = data[key];
-      
-      acc[key] = value.charAt(0).toUpperCase() + value.slice(1);
-      return acc;
-    }, {});
+    const formData = new FormData();
+    for (const key in data) {
+      if (key == "Picture") {
+        formData.append(key, data[key][0]);
+      } else {
+        if (key == "ProductName") {
+          const capatilized =
+            data[key].charAt(0).toUpperCase() + data[key].slice(1);
+          formData.append(key, capatilized);
+        } else {
+          formData.append(key, data[key]);
+        }
+      }
+    }
+
     try {
-      const res = await addProducts(cData).unwrap();
-      console.log(res.message);
+      const res = await addProducts(formData).unwrap();
     } catch (err) {
       console.log(err);
     }
   };
- 
 
   return (
     <div className="w-full px-2 py-2">
-    
       <h1 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Add items{" "}
       </h1>
@@ -69,10 +75,10 @@ function Create() {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        {/* <div className="space-y-2">
+        <div className="space-y-2">
           <Label htmlFor="picture">Image:</Label>
-          <Input id="picture" type="file" />
-        </div> */}
+          <Input id="picture" type="file" {...register("Picture")} />
+        </div>
 
         <div className="space-y-2">
           <Label htmlFor="picture">Product name:</Label>
@@ -85,8 +91,6 @@ function Create() {
             {...register("ProductName", {
               required: "Product name is required",
             })}
-           
-            
           />
           <p className="text-red-500 text-sm pt-1 px-2">
             {errors.ProductName?.message}
@@ -133,7 +137,6 @@ function Create() {
             {...register("Description", {
               required: "Product description is required",
             })}
-            
           />
           <p className="text-red-500 text-sm pt-1 px-2 ">
             {errors.Description?.message}
@@ -149,7 +152,6 @@ function Create() {
               {...register("Price", {
                 required: "Product price is required",
               })}
-              
             />
             <p className="text-red-500 text-sm pt-1 px-2">
               {errors.Price?.message}
@@ -165,7 +167,6 @@ function Create() {
               {...register("Quantity", {
                 required: "Product quantity is required",
               })}
-             
             />
             <p className="text-red-500 text-sm pt-1 px-2">
               {errors.Quantity?.message}
