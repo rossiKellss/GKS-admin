@@ -59,6 +59,7 @@ function Create() {
 
     try {
       const res = await addProducts(formData).unwrap();
+      console.log(res)
     } catch (err) {
       console.log(err);
     }

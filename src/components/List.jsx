@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useGetProductsQuery,useDeleteProductsMutation } from "./app/apiSlice";
+import {
+  useGetProductsQuery,
+  useDeleteProductsMutation,
+  useLazySearchProductsQuery,
+} from "./app/apiSlice";
 
 import { Button } from "./ui/button";
 import {
@@ -22,9 +26,7 @@ import {
 import {
   Pagination,
   PaginationContent,
- 
   PaginationItem,
-  
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
@@ -33,91 +35,60 @@ import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 function List() {
-  const {data,error,isLoading,isSuccess}=useGetProductsQuery();
-  const [deleteProducts,{isError}]=useDeleteProductsMutation();
-  
+  const {
+    data: initialData,
+    error,
+    isLoading,
+    isSuccess,
+  } = useGetProductsQuery();
+
+  const [deleteProducts, { isError }] = useDeleteProductsMutation();
+  const [triggerSearch] = useLazySearchProductsQuery();
+
   const [fetchedData, setFetchedData] = useState();
   const [searchCred, setSearchCred] = useState();
 
-
-
-  const deleteItem=async(id)=>{
-    try{
-
-      const {data}=await deleteProducts(id);
-      console.log(data.message);
-      
-    }catch(err){
-      console.log(err);
+  useEffect(() => {
+    if (initialData) {
+      setFetchedData(initialData);
     }
+  }, [initialData]);
 
+  const capatilizeLetter = () => {
+    const cLetter = searchCred.charAt(0).toUpperCase() + searchCred.slice(1);
+    return cLetter;
+  };
 
-  }
-
-  
-
-  
- 
-  // const [pagination,setPagination]=useState({
-  //   start:0,
-  //   page:1,
-  //   end:5
-  // })
-  const search = async () => {
+  const onSearch = async () => {
+    const capatilizedCred = capatilizeLetter();
     try {
-      const res = await axios.get(
-        `http://localhost:5000/vegetables?q=${searchCred}`
-      );
-      setData(res.data);
+      const res = await triggerSearch(capatilizedCred);
+      console.log(res.error);
+
+      setFetchedData(res.data);
     } catch (err) {
-      console.err(err.message);
+      console.log(err);
     }
   };
 
-  // const handlePaginationNext=()=>{
-  //   console.log("pagination btn triggered");
-  //   const{page,end}=pagination;
-   
+  const onReset = () => {
+    setFetchedData(initialData);
+  };
+
+  const handleSelect=(e)=>{
     
-  //   setPagination({
-  //     start:end,
-  //     page:page+1,
-  //     end:end+5
 
-  //   })
+  }
 
-  // }
+  const deleteItem = async (id) => {
+    try {
+      const { data } = await deleteProducts(id);
+      console.log(data.message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  
-  
-  // const handlePaginationPrevious=()=>{
-  //   const{start,page}=pagination;
-   
-    
-  //   setPagination({
-  //     start:start-5,
-  //     page:page-1,
-  //     end:start
-
-  //   })
-
-
-  // }
-
-  // useEffect(() => {
-  //   getData();
-  // }, [pagination]);
-
-
-  // const getData = async () => {
-  //   try {
-  //    const{data}=await getProducts();
-  //     setData(data);
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // };
- 
 
   return (
     <div className="w-full px-3 ">
@@ -135,32 +106,29 @@ function List() {
             placeholder="Search items"
           />
           <Button
-            variant=""
-            className="bg-green-500"
+            className="bg-green-600 hover:bg-black"
             onClick={() => {
-              search();
+              onSearch();
             }}
           >
             Search
           </Button>
-          <Button variant="" className="bg-red-500">
+          <Button className="bg-red-500 hover:bg-black" onClick={onReset}>
             Reset
           </Button>
-          <div className=" ">
-            <Button>
-              <DropdownMenu className="">
-                <DropdownMenuTrigger className="flex items-center gap-2 text-white ">
-                  <span>Filter</span>
-                  <IoIosArrowDown />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="mt-2">
-                  <DropdownMenuItem>Filter by name</DropdownMenuItem>
-                  <DropdownMenuItem>Filter by date</DropdownMenuItem>
-                  <DropdownMenuItem>Filter by quantity</DropdownMenuItem>
-                  <DropdownMenuItem>Filter by price</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </Button>
+          <div className="">
+            <DropdownMenu className="">
+              <DropdownMenuTrigger className="flex items-center gap-2 bg-primary rounded-md text-white text-base px-3">
+                <span className="tracking-normal">Filter</span>
+                <IoIosArrowDown />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="mt-2">
+                <DropdownMenuItem value="FBM" className="" onSelect={()=>{handleSelect("FBM")}}>
+                  Filter by name (A-Z)
+                </DropdownMenuItem>
+                <DropdownMenuItem value="FBD" onSelect={()=>{handleSelect("FBD")}}>Filter by date</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
@@ -168,10 +136,11 @@ function List() {
           <TableCaption>Product Lists</TableCaption>
           <TableHeader className="">
             <TableRow className="bg-gray-400 ">
-              <TableHead className="text-black">S.N</TableHead>
+              <TableHead className="text-black  ">S.N</TableHead>
+              <TableHead className="text-black ">Image</TableHead>
               <TableHead className="text-black">Name</TableHead>
               <TableHead className="text-black">Category</TableHead>
-              <TableHead className="text-black">Image</TableHead>
+
               <TableHead className="text-center text-black">
                 Quantity {"(in kg)"}
               </TableHead>
@@ -184,62 +153,60 @@ function List() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data&&data.products.map((item, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{index+1}</TableCell>
-                  <TableCell>{item.ProductName}</TableCell>
-                  <TableCell>{item.Category}</TableCell>
-                  <TableCell>"img"</TableCell>
-                  <TableCell className="text-center">
-                    {item.Quantity}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {item.Price}
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Link to={`/update/${item._id}`}>
-                    <button className="border px-2 py-1">Edit</button>
-                    </Link>
-                    
-                    <button className="border px-2 py-1" onClick={()=>{deleteItem(item._id)}}>Delete</button>
-                    
-                  </TableCell>
-                  <TableCell className="font-bold">
-                    
+            {fetchedData &&
+              fetchedData.products.map((item, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium ">{index + 1}</TableCell>
+                    <TableCell>
+                      <img
+                        src={`http://localhost:4000/api/image/download/${item.fileName}`}
+                        alt="img"
+                        srcset=""
+                        className="w-[5rem] rounded-lg"
+                      />
+                    </TableCell>
+                    <TableCell className="font-semibold">
+                      {item.ProductName}
+                    </TableCell>
+                    <TableCell>{item.Category}</TableCell>
 
-                    {item.Quantity*item.Price}
-                    
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-           
-             
+                    <TableCell className="text-center">
+                      {item.Quantity}
+                    </TableCell>
+                    <TableCell className="text-center">{item.Price}</TableCell>
+                    <TableCell className="flex gap-2">
+                      <Link to={`/update/${item._id}`}>
+                        <Button className="border px-3 py-1 bg-blue-600 hover:bg-black">
+                          Edit
+                        </Button>
+                      </Link>
+
+                      <Button
+                        className="border px-2 py-1 bg-red-600 hover:bg-black"
+                        onClick={() => {
+                          deleteItem(item._id);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                    <TableCell className="font-bold text-base tracking-tight">
+                      {item.Quantity * item.Price}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
-          <div className="w-full">
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious onClick={()=>{handlePaginationPrevious()}} />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext onClick={()=>{handlePaginationNext()}} />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          
-           
-            <TableFooter>
-              <TableRow className="">
-                <TableCell colSpan={3} className="">
-                  Total
-                </TableCell>
-                <TableCell className="text-right ">$2,500.00</TableCell>
-              </TableRow>
-            </TableFooter>
-          
+
+          <TableFooter>
+            <TableRow className="">
+              <TableCell colSpan={3} className="">
+                Total
+              </TableCell>
+              <TableCell className="text-right ">$2,500.00</TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </div>
     </div>

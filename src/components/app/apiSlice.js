@@ -45,8 +45,23 @@ export const productsApi = createApi({
 
 
       })
+    }),
+    searchProducts:builder.query({
+      query:(data)=>({
+        url:`products/search/${data}`
+  
+      })
+    }),
+    filterProducts:builder.query({
+      query:(data)=>({
+        url:`products/filter/${data}`
+
+      })
     })
+
+
   }),
+  
 });
 
-export const { useGetProductsQuery, useAddProductsMutation,useDeleteProductsMutation,useUpdateProductsMutation,useGetProductsByIdQuery } = productsApi;
+export const { useGetProductsQuery, useAddProductsMutation,useDeleteProductsMutation,useUpdateProductsMutation,useGetProductsByIdQuery,useLazySearchProductsQuery } = productsApi;
