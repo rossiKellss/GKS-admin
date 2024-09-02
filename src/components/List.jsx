@@ -3,6 +3,7 @@ import {
   useGetProductsQuery,
   useDeleteProductsMutation,
   useLazySearchProductsQuery,
+  useLazyFilterProductsQuery,
 } from "./app/apiSlice";
 
 import { Button } from "./ui/button";
@@ -44,6 +45,8 @@ function List() {
 
   const [deleteProducts, { isError }] = useDeleteProductsMutation();
   const [triggerSearch] = useLazySearchProductsQuery();
+  const [triggerFilter]=useLazyFilterProductsQuery();
+  
 
   const [fetchedData, setFetchedData] = useState();
   const [searchCred, setSearchCred] = useState();
@@ -63,7 +66,7 @@ function List() {
     const capatilizedCred = capatilizeLetter();
     try {
       const res = await triggerSearch(capatilizedCred);
-      console.log(res.error);
+     
 
       setFetchedData(res.data);
     } catch (err) {
@@ -75,7 +78,16 @@ function List() {
     setFetchedData(initialData);
   };
 
-  const handleSelect=(e)=>{
+  const handleSelect=async(value)=>{
+    try{
+      const res=await triggerFilter(value);
+    
+      
+      setFetchedData(res.data)
+    }catch(err){
+      console.log(err)
+    }
+
     
 
   }
@@ -123,7 +135,7 @@ function List() {
                 <IoIosArrowDown />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="mt-2">
-                <DropdownMenuItem value="FBM" className="" onSelect={()=>{handleSelect("FBM")}}>
+                <DropdownMenuItem value="FBN" className="" onSelect={()=>{handleSelect("FBN")}}>
                   Filter by name (A-Z)
                 </DropdownMenuItem>
                 <DropdownMenuItem value="FBD" onSelect={()=>{handleSelect("FBD")}}>Filter by date</DropdownMenuItem>
