@@ -42,6 +42,7 @@ function Create() {
   // handling on change function
 
   const onSubmit = async (data) => {
+    console.log(data);
     const formData = new FormData();
     for (const key in data) {
       if (key == "Picture") {
