@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DevTool } from "@hookform/devtools";
@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useAddProductsMutation } from "./app/apiSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Create() {
   
@@ -42,7 +44,6 @@ function Create() {
   // handling on change function
 
   const onSubmit = async (data) => {
-    console.log(data);
     const formData = new FormData();
     for (const key in data) {
       if (key == "Picture") {
@@ -60,14 +61,32 @@ function Create() {
 
     try {
       const res = await addProducts(formData).unwrap();
-      console.log(res)
+      
+      toast.success("Product added successfully", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+
+      });
     } catch (err) {
       console.log(err);
+      toast.error(`${err.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+
+      });
     }
   };
+  
+
+
 
   return (
     <div className="w-full px-2 py-2">
+      <ToastContainer />
       <h1 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Add items{" "}
       </h1>
@@ -79,7 +98,16 @@ function Create() {
       >
         <div className="space-y-2">
           <Label htmlFor="picture">Image:</Label>
-          <Input id="picture" type="file" {...register("Picture")} />
+          <Input
+            id="picture"
+            type="file"
+            {...register("Picture", {
+              required: "Product image is required",
+            })}
+          />
+          <p className="text-red-500 text-sm pt-1 px-2">
+            {errors.Picture?.message}
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -102,14 +130,7 @@ function Create() {
         <div className="space-y-2">
           <Select
             value={getValues("Category")}
-            onValueChange={(value) =>
-              setValue(
-                "Category",
-                value,
-                { shouldValidate: true },
-                trigger("Category")
-              )
-            }
+            onValueChange={(value) => setValue("Category", value)}
           >
             <Label htmlFor="Category">Category:</Label>
             <SelectTrigger>
@@ -179,7 +200,8 @@ function Create() {
           Add Item
         </Button>
       </form>
-      <DevTool control={control} />
+
+      {/* for notification */}
     </div>
   );
 }
