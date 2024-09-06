@@ -44,19 +44,22 @@ export const productsApi = createApi({
         body:formData
 
 
-      })
+      }),
+      invalidatesTags:["Post"]
     }),
     searchProducts:builder.query({
       query:(data)=>({
         url:`products/search/${data}`
   
-      })
+      }),
+      invalidatesTags:["Post"]
     }),
     filterProducts:builder.query({
       query:(data)=>({
         url:`products?filter=${data}`
 
-      })
+      }),
+      invalidatesTags:["Post"]
     })
 
 

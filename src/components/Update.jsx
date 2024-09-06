@@ -46,10 +46,12 @@ function Update() {
   }, [params.id, triggerGet]);
 
   const handleChange = (e) => {
+  
     const name = e.target.name;
-    const value = e.target.value;
-    const file=e.target.files;
-    console.log(file[0]);
+    const value = e.target.type==='file'?e.target.files:e.target.value;
+    
+
+    
     setUpdateCred({ ...updateCred, [name]: value });
   };
 
