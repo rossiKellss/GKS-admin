@@ -15,6 +15,9 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 //api import
 import {
   useUpdateProductsMutation,
@@ -72,11 +75,15 @@ function Update() {
       }
     }
     try {
-      const { data } = await updateProducts({ id: params.id, formData });
-      // setUpdateCred();
-      console.log(data.message);
+       await updateProducts({ id: params.id, formData });
+     
+      toast.success("Item updated successfully");
     } catch (err) {
-      console.log(err);
+      if (err.data) {
+        toast.error(`${err.data.err}`);
+      } else {
+        toast.error("Some unknown error occured");
+      }
     }
   };
 
@@ -88,6 +95,7 @@ function Update() {
 
   return (
     <div className="w-full px-2 py-2">
+      <ToastContainer/>
       <h1 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Update Item{" "}
       </h1>

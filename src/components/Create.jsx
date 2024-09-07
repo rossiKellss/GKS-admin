@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DevTool } from "@hookform/devtools";
+
 import {
   Select,
   SelectContent,
@@ -18,7 +18,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Create() {
-  
   const form = useForm({
     defaultValues: {
       Category: "",
@@ -29,12 +28,13 @@ function Create() {
   // form handler
   const {
     register,
-    control,
+
     handleSubmit,
     setValue,
-    getValues,
+
     formState,
-    trigger,
+
+    reset,
   } = form;
   const { errors } = formState;
 
@@ -61,28 +61,17 @@ function Create() {
 
     try {
       const res = await addProducts(formData).unwrap();
-      
-      toast.success("Product added successfully", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
+      reset();
 
-      });
+      toast.success("Product added successfully");
     } catch (err) {
-      console.log(err);
-      toast.error(`${err.message}`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-
-      });
+      if (err.data) {
+        toast.error(`${err.data.err}`);
+      } else {
+        toast.error("Some unknown error occured");
+      }
     }
   };
-  
-
-
 
   return (
     <div className="w-full px-2 py-2">
@@ -128,10 +117,7 @@ function Create() {
         </div>
 
         <div className="space-y-2">
-          <Select
-            value={getValues("Category")}
-            onValueChange={(value) => setValue("Category", value)}
-          >
+          <Select onValueChange={(value) => setValue("Category", value)}>
             <Label htmlFor="Category">Category:</Label>
             <SelectTrigger>
               <SelectValue placeholder="Select item Category" />
@@ -201,7 +187,7 @@ function Create() {
         </Button>
       </form>
 
-      {/* for notification */}
+
     </div>
   );
 }
