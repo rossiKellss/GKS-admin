@@ -2,25 +2,24 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Dashboard from "./components/Dashboard";
 import List from "./components/List";
-
+import Login from "./page/Login";
 import Create from "./components/Create";
 import Update from "./components/Update";
 import { store } from "./components/app/store";
 import { Provider } from "react-redux";
+import AuthLayout from "./components/AuthLayout";
+import { RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <Provider store={store}>
-        <App />
-      </Provider>
-    ),
+    element: <App />,
     children: [
       {
-        path: "/",
+        path: "/dashboard",
         element: <Dashboard />,
       },
+
       {
         path: "/create",
         element: <Create />,
@@ -35,6 +34,24 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/login",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "",
+        element: <Login />,
+      },
+    ],
+  },
 ]);
 
-export default router;
+const RootProvider = () => {
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
+};
+export default RootProvider;
+// export default router;
