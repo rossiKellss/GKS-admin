@@ -5,7 +5,7 @@ import List from "./components/List";
 import Login from "./page/Login";
 import Create from "./components/Create";
 import Update from "./components/Update";
-import { store } from "./components/app/store";
+import { store } from "./app/store";
 import { Provider } from "react-redux";
 import AuthLayout from "./components/AuthLayout";
 import { RouterProvider } from "react-router-dom";

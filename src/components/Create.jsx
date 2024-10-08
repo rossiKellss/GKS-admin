@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useAddProductsMutation } from "./app/apiSlice";
+import { useAddProductsMutation } from "../app/productApiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

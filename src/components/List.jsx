@@ -4,7 +4,7 @@ import {
   useDeleteProductsMutation,
   useLazySearchProductsQuery,
   useLazyFilterProductsQuery,
-} from "./app/apiSlice";
+} from "../app/productApiSlice";
 
 import { Button } from "./ui/button";
 import {
@@ -24,13 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+
 import { Input } from "@/components/ui/input";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -43,7 +37,7 @@ function List() {
     isSuccess,
   } = useGetProductsQuery();
 
-  const [deleteProducts, { isError }] = useDeleteProductsMutation();
+  const [deleteProducts] = useDeleteProductsMutation();
   const [triggerSearch] = useLazySearchProductsQuery();
   const [triggerFilter]=useLazyFilterProductsQuery();
   

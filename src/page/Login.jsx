@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { User, UserIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 import {
   Card,
@@ -13,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 function Login() {
+
   return (
-    <div className="p-4 w-full min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="p-4 w-full min-h-screen bg-gray-300 flex items-center justify-center">
       <div className="">
         <Card className=" w-full sm:w-96 md:w-[30rem] lg:w-[32rem]">
           <CardHeader>

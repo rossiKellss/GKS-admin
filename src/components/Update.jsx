@@ -22,7 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   useUpdateProductsMutation,
   useLazyGetProductsByIdQuery,
-} from "./app/apiSlice";
+} from "../app/productApiSlice";
 
 function Update() {
   const params = useParams();
