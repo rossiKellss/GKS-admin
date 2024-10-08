@@ -1,6 +1,5 @@
 import { baseApi } from "./apiSlice";
 
-
 export const apiAuthSlice=baseApi.injectEndpoints({
     endpoints:(builder)=>({
         loginAdmin:builder.mutation({
@@ -11,6 +10,8 @@ export const apiAuthSlice=baseApi.injectEndpoints({
 
             })
         })
+
+
     })
 })
 
