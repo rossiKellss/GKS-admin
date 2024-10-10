@@ -5,14 +5,25 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useLoginAdminMutation } from "@/app/apiAuthSlice";
 
 function Login() {
+  const { register, handleSubmit, reset } = useForm();
+  const [loginAdmin] = useLoginAdminMutation();
+  const onSubmit = async (data) => {
+    try {
+      const result = await loginAdmin(data).unwrap();
+      console.log(result);
+      reset();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="p-4 w-full min-h-screen bg-gray-300 flex items-center justify-center">
@@ -20,30 +31,39 @@ function Login() {
         <Card className=" w-full sm:w-96 md:w-[30rem] lg:w-[32rem]">
           <CardHeader>
             <CardTitle>Login to Admin.</CardTitle>
-            <CardDescription>Welcome! Please signin to continue.</CardDescription>
+            <CardDescription>
+              Welcome! Please signin to continue.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-          <form action="" className="flex flex-col gap-3 ">
-            <div>
-            <Label>Email:</Label>
-            <Input type="email"/>
+            <form
+              action=""
+              className="flex flex-col gap-3 "
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div>
+                <Label>Email:</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  {...register("phoneOrEmail")}
+                />
+              </div>
 
-            </div>
+              <div>
+                <Label>Password:</Label>
+                <Input
+                  type="Password"
+                  name="password"
+                  {...register("password")}
+                />
+              </div>
 
-            <div>
-            <Label>Password:</Label>
-            <Input type="Password"/>
-
-            </div>
-            
-           
-          <Button type="submit" className='w-full bg-green-500 mt-2'>Login</Button>
-          </form>
-
+              <Button type="submit" className="w-full bg-green-500 mt-2">
+                Login
+              </Button>
+            </form>
           </CardContent>
-          
-          
-
         </Card>
 
         {/* <div>
@@ -60,7 +80,6 @@ function Login() {
           </form>
         </div> */}
 
-        
         {/* <div className="hidden">image</div> */}
       </div>
     </div>

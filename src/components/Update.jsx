@@ -49,12 +49,8 @@ function Update() {
   }, [params.id, triggerGet]);
 
   const handleChange = (e) => {
-  
     const name = e.target.name;
-    const value = e.target.type==='file'?e.target.files:e.target.value;
-    
-
-    
+    const value = e.target.type === "file" ? e.target.files : e.target.value;
     setUpdateCred({ ...updateCred, [name]: value });
   };
 
@@ -75,8 +71,8 @@ function Update() {
       }
     }
     try {
-       await updateProducts({ id: params.id, formData });
-     
+      await updateProducts({ id: params.id, formData });
+
       toast.success("Item updated successfully");
     } catch (err) {
       if (err.data) {
@@ -91,11 +87,11 @@ function Update() {
     setUpdateCred({ ...updateCred, Category: data });
   };
 
-  console.log(updateCred);
+
 
   return (
     <div className="w-full px-2 py-2">
-      <ToastContainer/>
+      <ToastContainer />
       <h1 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Update Item{" "}
       </h1>
@@ -105,7 +101,12 @@ function Update() {
       >
         <div className="space-y-2">
           <Label htmlFor="picture">Image:</Label>
-          <Input id="picture" type="file" name="Picture" onChange={handleChange} />
+          <Input
+            id="picture"
+            type="file"
+            name="Picture"
+            onChange={handleChange}
+          />
         </div>
 
         <div className="space-y-2">

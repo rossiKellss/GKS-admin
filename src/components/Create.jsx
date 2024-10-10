@@ -39,7 +39,7 @@ function Create() {
   const { errors } = formState;
 
   // for api
-  const [addProducts, { isError }] = useAddProductsMutation();
+  const [addProducts] = useAddProductsMutation();
 
   // handling on change function
 

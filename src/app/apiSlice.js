@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery=fetchBaseQuery({
   baseUrl: `http://localhost:4000/api/`,
-    credentials:'true',
+    credentials:"include",
     prepareHeaders:(headers,{getState})=>{
       const token=getState().auth?.token;
       if(token){
@@ -36,6 +36,7 @@ const baseQueryWithReAuth=async(args,api,extraOptions)=>{
 
     
   }
+  return result;
 
 }
 
