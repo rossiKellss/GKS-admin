@@ -15,10 +15,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
+      
 
       {
         path: "/create",
@@ -54,4 +51,4 @@ const RootProvider = () => {
   );
 };
 export default RootProvider;
-// export default router;
+

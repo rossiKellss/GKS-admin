@@ -11,14 +11,27 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useLoginAdminMutation } from "@/app/apiAuthSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCred } from "@/features/authSlice";
 
 function Login() {
+  const navigate=useNavigate();
   const { register, handleSubmit, reset } = useForm();
   const [loginAdmin] = useLoginAdminMutation();
+  const dispatch=useDispatch();
   const onSubmit = async (data) => {
     try {
       const result = await loginAdmin(data).unwrap();
-      console.log(result);
+      
+      if(result?.success){
+      
+        dispatch(setCred({accessToken:result.accessToken}));
+        
+
+        navigate('/');
+      }
+      
       reset();
     } catch (err) {
       console.log(err);
@@ -65,22 +78,6 @@ function Login() {
             </form>
           </CardContent>
         </Card>
-
-        {/* <div>
-          <h2 className="font-semibold text-primary  text-lg">Login here.</h2>
-         
-          <form className="flex flex-col gap-2 flex-1">
-            <div className="flex items-center gap-1">
-              <Input
-                type="email"
-                placeholder="Enter you Email"
-                className="w-full  bg-transparent border"
-              />
-            </div>
-          </form>
-        </div> */}
-
-        {/* <div className="hidden">image</div> */}
       </div>
     </div>
   );
