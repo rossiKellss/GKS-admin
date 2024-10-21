@@ -9,7 +9,7 @@ const baseQuery=fetchBaseQuery({
       if(token){
         headers("Authorization",`Bearer ${token}`)
       }
-     return token;
+     return headers;
 
     }
 

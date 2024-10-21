@@ -23,10 +23,11 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const result = await loginAdmin(data).unwrap();
+      console.log(result);
       
       if(result?.success){
       
-        dispatch(setCred({accessToken:result.accessToken}));
+        // dispatch(setCred({accessToken:result.accessToken}));
         
 
         navigate('/');
